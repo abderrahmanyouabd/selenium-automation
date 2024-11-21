@@ -26,16 +26,17 @@ def step_impl(context, username, password):
     except NoAlertPresentException:
         print("No more alerts present.")
 
-@when('I add the items "{item1}" and "{item2}" to the cart')
-def step_impl(context, item1, item2):
+@when('I add the items "{items}" to the cart')
+def step_impl(context, items):
     try:
-        # Click the "Add to Cart" button for item1
-        context.driver.find_element(By.XPATH, f"//div[text()='{item1}']/ancestor::div[@class='inventory_item']//button").click()
-        print(f"Added {item1} to the cart.")
+        # Split the items string into a list
+        item_list = [item.strip() for item in items.split(",")]
 
-        # Click the "Add to Cart" button for item2
-        context.driver.find_element(By.XPATH, f"//div[text()='{item2}']/ancestor::div[@class='inventory_item']//button").click()
-        print(f"Added {item2} to the cart.")
+        for item in item_list:
+            # Wait for the item to be visible before interacting
+            xpath = f"//div[text()='{item}']/ancestor::div[@class='inventory_item']//button"
+            WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath))).click()
+            print(f"Added {item} to the cart.")
     except Exception as e:
         print(f"Error while adding items to the cart: {e}")
         raise

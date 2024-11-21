@@ -10,8 +10,14 @@ def run_tests_in_order():
     print("Running login tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}registration.feature"], check=True)
 
-    print("Running sauce_demo tests...")
+    print("Running sauce_demo checkout tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}sauce_demo.feature"], check=True)
+
+    print("Running sauce_demo logout url tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}logout.feature"], check=True)
+
+    print("Running sauce_demo media url tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}media.feature"], check=True)
 
     print("All tests passed!")
 
