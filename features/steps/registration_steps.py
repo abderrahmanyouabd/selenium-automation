@@ -77,7 +77,7 @@ def step_impl(context):
         print(f"Error submitting the form: {e}")
 
 
-@then("I should see the message '{expected_message}'")
+@then("I should see the registration message '{expected_message}'")
 def step_impl(context, expected_message):
     try:
         registration_page = DemoRegistrationPage(context.driver)

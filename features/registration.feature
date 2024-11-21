@@ -1,3 +1,4 @@
+@Registration
 Feature: Registration functionality
 
   Background:
@@ -11,7 +12,7 @@ Feature: Registration functionality
     And I select '<country_id>' from the country dropdown
     And I fill the 'Business Name' field with '<business_name>'
     And I submit the registration form
-    Then I should see the message '<expected_message>'
+    Then I should see the registration message '<expected_message>'
 
     Examples:
       | first_name | last_name | email                | whatsapp   | country_id  | business_name  | expected_message         |

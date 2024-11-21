@@ -1,9 +1,5 @@
 import undetected_chromedriver as uc
-import undetected_chromedriver as uc
 from selenium_stealth import stealth
-from selenium.webdriver.common.by import By
-import time
-
 
 def before_all(context):
     """
@@ -18,11 +14,23 @@ def before_all(context):
         options.add_argument("--disable-infobars")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-popup-blocking")  # Disable popups
+        options.add_argument("--disable-notifications")  # Disable notifications
+
+        # Add preferences to disable password and enhanced protection prompts
+        prefs = {
+            "credentials_enable_service": False,  # Disable password manager
+            "profile.password_manager_enabled": False,  # Disable save password prompt
+            "safebrowsing.enabled": False,  # Enable safe browsing but without enhanced protection
+        }
+        options.add_experimental_option("prefs", prefs)
 
         # Initialize the undetected ChromeDriver
         context.driver = uc.Chrome(options=options)
 
         context.driver.implicitly_wait(5)
+
+        # Apply stealth settings to the driver
         stealth(
             context.driver,
             languages=["en-US", "en"],
@@ -42,4 +50,3 @@ def after_all(context):
     """
     if hasattr(context, 'driver'):
         context.driver.quit()
-
