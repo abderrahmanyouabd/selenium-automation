@@ -2,11 +2,9 @@ import subprocess
 import os
 
 def run_tests_in_order():
-    # Run registration tests first
     print("Running registration tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}login.feature"], check=True)
 
-    # Run login tests next
     print("Running login tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}registration.feature"], check=True)
 
@@ -18,6 +16,12 @@ def run_tests_in_order():
 
     print("Running sauce_demo media url tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}media.feature"], check=True)
+    print("Running demo_blaze product addition tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}product.feature"], check=True)
+    print("Running demo_blaze about us opening page tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}about.feature"], check=True)
+    print("Running demo_blaze contact us opening page tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}contact.feature"], check=True)
 
     print("All tests passed!")
 
