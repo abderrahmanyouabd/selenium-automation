@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-@given('the Demoblaze home page is opened')
+@given('the Demoblaze page is opened')
 def step_impl(context):
     context.driver.get("https://www.demoblaze.com/index.html")
     context.home_page = HomePage(context.driver)
@@ -20,7 +20,6 @@ def step_impl(context, item):
 def step_impl(context):
     context.cart_page.click_button("Add to cart")
     try:
-        # Handle the alert
         WebDriverWait(context.driver, 5).until(EC.alert_is_present())
         alert = context.driver.switch_to.alert
         alert.accept()

@@ -9,7 +9,7 @@ class DemoRegistrationPage:
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
-        # Locators (using XPATH)
+
         self.locators = {
             "first_name_field": (By.XPATH, "//input[@name='first_name']"),
             "last_name_field": (By.XPATH, "//input[@name='last_name']"),
@@ -42,6 +42,8 @@ class DemoRegistrationPage:
         self._fill_field(self.locators["email_field"], email, "Email")
 
     def fill_whatsapp(self, whatsapp):
+        if whatsapp == "[BLANK]":
+            whatsapp = ""
         self._fill_field(self.locators["whatsapp_field"], whatsapp, "WhatsApp")
 
     def select_country(self, country_id):
@@ -76,30 +78,30 @@ class DemoRegistrationPage:
 
     def submit_form(self):
         try:
-            # Calculate and fill the result field before submission
+
             num1 = int(self.wait.until(EC.visibility_of_element_located(self.locators["num1"])).text)
             num2 = int(self.wait.until(EC.visibility_of_element_located(self.locators["num2"])).text)
             result = num1 + num2
             print(f"Ensuring result is set before submitting: {num1} + {num2} = {result}")
 
-            # Fill the result field
+
             result_field = self.wait.until(EC.element_to_be_clickable(self.locators["result_field"]))
-            result_field.clear()  # Clear any existing value
+            result_field.clear()
             result_field.send_keys(str(result))
             print("Result field filled successfully before submission.")
 
-            # Click the submit button
+ 
             self.wait.until(EC.element_to_be_clickable(self.locators["submit_button"])).click()
             print("Form submitted successfully.")
         except UnexpectedAlertPresentException as e:
             print(f"Unexpected alert encountered: {e}")
-            self.handle_alert()  # Handle the alert to proceed
+            self.handle_alert()
         except Exception as e:
             print(f"Error before or during form submission: {e}")
 
     def get_error_message(self):
         try:
-            # Locate the error message using CSS selector
+
             error_element = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div.alert_msg p")))
             error_message = error_element.text.strip()
             print(f"Error message retrieved: {error_message}")

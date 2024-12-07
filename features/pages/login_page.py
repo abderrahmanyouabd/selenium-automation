@@ -9,26 +9,26 @@ class LoginPage:
         self.wait = WebDriverWait(driver, 10)
 
     def enter_email(self, email):
-        email_field = self.driver.find_element(By.ID, "email")  # Update ID as needed
+        email_field = self.driver.find_element(By.ID, "email")
         email_field.clear()
         email_field.send_keys(email)
 
     def enter_password(self, password):
-        password_field = self.driver.find_element(By.ID, "password")  # Update ID as needed
+        password_field = self.driver.find_element(By.ID, "password")
         password_field.clear()
         password_field.send_keys(password)
 
     def submit_login_form(self):
-        submit_button = self.driver.find_element(By.ID, "submit")  # Update ID as needed
+        submit_button = self.driver.find_element(By.ID, "submit")
         submit_button.click()
 
     def get_error_message(self):
         try:
-            # Locate the parent element containing the error message
+
             error_element = self.wait.until(
                 EC.visibility_of_element_located((By.CSS_SELECTOR, "div.text-group"))
             )
-            # Extract the error header from the <h4> tag
+
             error_header = error_element.find_element(By.TAG_NAME, "h4").text.strip()
             
             print(f"Error message header retrieved: {error_header}")

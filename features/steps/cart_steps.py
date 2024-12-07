@@ -18,9 +18,9 @@ def step_impl(context):
 def step_impl(context, username, password):
     context.login_page.login(username, password)
     try:
-        while True:  # Keep checking and accepting alerts
+        while True:
             alert = context.driver.switch_to.alert
-            print(f"Alert detected: {alert.text}")  # Optional, for debugging
+            print(f"Alert detected: {alert.text}")
             alert.accept()
             print("Alert accepted.")
     except NoAlertPresentException:
@@ -29,11 +29,9 @@ def step_impl(context, username, password):
 @when('I add the items "{items}" to the cart')
 def step_impl(context, items):
     try:
-        # Split the items string into a list
         item_list = [item.strip() for item in items.split(",")]
 
         for item in item_list:
-            # Wait for the item to be visible before interacting
             xpath = f"//div[text()='{item}']/ancestor::div[@class='inventory_item']//button"
             WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath))).click()
             print(f"Added {item} to the cart.")
@@ -46,7 +44,7 @@ def step_impl(context, items):
 def step_impl(context, count):
     cart_page = SauceDemoCartPage(context.driver)
     cart_item_count = cart_page.get_cart_item_count()
-    print(f"Cart contains {cart_item_count} items.")  # Debugging info
+    print(f"Cart contains {cart_item_count} items.")
     assert cart_item_count == int(count), f"Expected {count} items, but found {cart_item_count}."
 
 @when('I proceed to checkout')
@@ -59,7 +57,6 @@ def step_impl(context):
 
 @when('I fill the checkout information with "{first_name}", "{last_name}", and "{zip_code}"')
 def step_impl(context, first_name, last_name, zip_code):
-    # Use the checkout information page
     context.checkout_information_page = SauceDemoCheckoutInformationPage(context.driver)
     context.checkout_information_page.fill_checkout_information(first_name, last_name, zip_code)
     context.checkout_information_page.click_continue()

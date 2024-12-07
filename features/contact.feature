@@ -1,7 +1,7 @@
 Feature: Demoblaze contact
 
   Background:
-    Given the Demoblaze home page is opened
+    Given the Demoblaze page is opened
 
     Scenario: Send a contact us message
       Given the "Contact Link" menu link is clicked

@@ -16,6 +16,5 @@ class SauceDemoCheckoutInformationPage:
         self.driver.find_element(*self.zip_code_field).send_keys(zip_code)
 
     def click_continue(self):
-        # Click the continue button
         self.driver.find_element(*self.continue_button).click()
         print(f"Current URL after clicking Continue: {self.driver.current_url}")

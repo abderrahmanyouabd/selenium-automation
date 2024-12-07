@@ -6,31 +6,30 @@ def before_all(context):
     Initialize the Selenium driver with undetected-chromedriver and stealth settings
     to bypass Cloudflare and other bot detection mechanisms.
     """
+
+    # ChromeDriverManager().install() couldn't use webdriver because of Cloudflare protection so I had to use undetected_chromedriver.
     try:
-        # Configure undetected ChromeDriver options
         options = uc.ChromeOptions()
         options.add_argument("start-maximized")
-        # options.add_argument("--headless")  # Uncomment for headless mode
+        # options.add_argument("--headless")
         options.add_argument("--disable-infobars")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("--disable-popup-blocking")  # Disable popups
-        options.add_argument("--disable-notifications")  # Disable notifications
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--disable-notifications")
 
-        # Add preferences to disable password and enhanced protection prompts
         prefs = {
-            "credentials_enable_service": False,  # Disable password manager
-            "profile.password_manager_enabled": False,  # Disable save password prompt
-            "safebrowsing.enabled": False,  # Enable safe browsing but without enhanced protection
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+            "safebrowsing.enabled": False,
         }
         options.add_experimental_option("prefs", prefs)
 
         # Initialize the undetected ChromeDriver
         context.driver = uc.Chrome(options=options)
 
-        context.driver.implicitly_wait(5)
+        context.driver.implicitly_wait(2)
 
-        # Apply stealth settings to the driver
         stealth(
             context.driver,
             languages=["en-US", "en"],

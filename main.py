@@ -1,11 +1,12 @@
 import subprocess
 import os
 
-def run_tests_in_order():
-    print("Running registration tests...")
-    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}login.feature"], check=True)
+def run_tests():
 
     print("Running login tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}login.feature"], check=True)
+
+    print("Running registration tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}registration.feature"], check=True)
 
     print("Running sauce_demo checkout tests...")
@@ -16,14 +17,23 @@ def run_tests_in_order():
 
     print("Running sauce_demo media url tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}media.feature"], check=True)
+
     print("Running demo_blaze product addition tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}product.feature"], check=True)
+
     print("Running demo_blaze about us opening page tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}about.feature"], check=True)
+
     print("Running demo_blaze contact us opening page tests...")
     subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}contact.feature"], check=True)
+
+    print("Running date picker tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}date.feature"], check=True)
+
+    print("Running search feature tests...")
+    subprocess.run(["behave", "--no-capture", "--no-skipped", rf"features{os.sep}search_feature.feature"], check=True)
 
     print("All tests passed!")
 
 if __name__ == "__main__":
-    run_tests_in_order()
+    run_tests()

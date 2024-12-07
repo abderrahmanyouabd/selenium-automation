@@ -51,7 +51,6 @@ class CartPage:
         """Delete a specific item from the cart."""
         delete_button = self.driver.find_element(By.XPATH, f"//td[contains(text(),'{item_name}')]/following-sibling::td[2]/a")
         delete_button.click()
-        # Wait for the item to be removed from the cart
         WebDriverWait(self.driver, 10).until_not(
             EC.presence_of_element_located((By.XPATH, f"//td[contains(text(),'{item_name}')]"))
         )

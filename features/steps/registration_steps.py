@@ -83,20 +83,19 @@ def step_impl(context, expected_message):
         registration_page = DemoRegistrationPage(context.driver)
         actual_message = None
 
-        # Check for an alert first
         try:
             alert = context.driver.switch_to.alert
             actual_message = alert.text.strip()
             print(f"Alert detected with message: {actual_message}")
-            alert.accept()  # Accept the alert to dismiss it
+            alert.accept()
         except Exception:
             print("No alert detected.")
 
-        # If no alert, check for an error message on the page
+
         if not actual_message:
             actual_message = registration_page.get_error_message()
 
-        # If still no message, wait for and check for "Thank you!" in the success element
+
         if not actual_message:
             try:
                 success_element = WebDriverWait(context.driver, 10).until(
@@ -109,7 +108,7 @@ def step_impl(context, expected_message):
             except Exception as e:
                 print(f"Error while checking for success message: {e}")
 
-        # Verify the message
+
         assert expected_message in actual_message, f"Expected '{expected_message}', but got '{actual_message}'"
 
     except Exception as e:

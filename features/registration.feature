@@ -18,5 +18,5 @@ Feature: Registration functionality
       | first_name | last_name | email                | whatsapp   | country_id  | business_name  | expected_message         |
       | John       | Doe       | roomacc250@gmail.com | 305662128  | 97          | MyBusiness     | Thank you!   |
       | John       | Doe       | invalid-email        | 1234567890 | 97          | MyBusiness     | Email address is not valid. please use real email address    |
-      | John       | Doe       | roomacc250@gmail.com | invalid    | 97          | MyBusiness     | The whatsapp number is not valid. avoid adding country number, Zero or + signs before the number    |
+      | John       | Doe       | roomacc250@gmail.com | [BLANK]    | 97          | MyBusiness     | Please type your whatsapp number    |
       | [BLANK]    | Doe       | roomacc250@gmail.com | 1234567890 | 97          | MyBusiness     | Please type your first name   |
