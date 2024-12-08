@@ -4,11 +4,9 @@ from selenium.webdriver.common.by import By
 
 @given('I am logged in to SauceDemo as "{username}" with password "{password}"')
 def step_impl(context, username, password):
-    context.driver.get("https://www.saucedemo.com/")
-    context.driver.find_element(By.ID, "user-name").send_keys(username)
-    context.driver.find_element(By.ID, "password").send_keys(password)
-    context.driver.find_element(By.ID, "login-button").click()
-    context.menu_page = MenuPage(context.driver)
+    context.menu_page = MenuPage(context)
+    context.menu_page.open()
+    context.menu_page.login(username, password)
 
 @when("I click on the menu icon")
 def step_impl(context):
@@ -20,4 +18,5 @@ def step_impl(context):
 
 @then("I should be redirected to the SauceDemo login page")
 def step_impl(context):
-    assert context.driver.current_url == "https://www.saucedemo.com/"
+    expected_url = "https://www.saucedemo.com/"
+    assert context.driver.current_url == expected_url, f"Expected URL: {expected_url}, but got {context.driver.current_url}"

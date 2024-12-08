@@ -1,12 +1,11 @@
 from behave import given, when, then
-from selenium import webdriver
 from pages.date_picker_home_page import DatePickerHomePage
 
 
 @given("I am on the GlobalSQA Date Picker page")
 def step_open_date_picker_page(context):
-    context.driver.get("https://www.globalsqa.com/demo-site/datepicker/")
     context.date_picker_page = DatePickerHomePage(context.driver)
+    context.date_picker_page.open()
     context.date_picker_page.handle_cookie_consent()
     context.date_picker_page.switch_to_datepicker_iframe()
 

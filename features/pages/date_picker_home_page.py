@@ -5,9 +5,11 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class DatePickerHomePage:
+    URL = "https://globalsqa.com/demo-site/datepicker/"
+    _cookies_handled = False
+
     def __init__(self, driver: WebDriver):
         self.driver = driver
-        self.url = "https://globalsqa.com/demo-site/datepicker/"
         self.iframe = (By.CLASS_NAME, "demo-frame")
         self.date_field = (By.XPATH, "//input[@id='datepicker']")
         self.calendar_popup = (By.XPATH, "//table[contains(@class, 'ui-datepicker-calendar')]")
@@ -15,15 +17,19 @@ class DatePickerHomePage:
         self.cookie_consent_button = (By.XPATH, "//button[contains(@class, 'fc-button') and .='Consent']")
 
     def open(self):
-        self.driver.get(self.url)
+        """Open the GlobalSQA Date Picker page."""
+        self.driver.get(self.URL)
 
     def handle_cookie_consent(self):
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable(self.cookie_consent_button)
-            ).click()
-        except Exception as e:
-            print("No cookie consent popup found:", e)
+        """Handle cookie consent, ensuring it is done only once."""
+        if not DatePickerHomePage._cookies_handled:
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(self.cookie_consent_button)
+                ).click()
+                DatePickerHomePage._cookies_handled = True
+            except Exception as e:
+                print("No cookie consent popup found:", e)
 
     def switch_to_datepicker_iframe(self):
         WebDriverWait(self.driver, 10).until(
@@ -41,10 +47,7 @@ class DatePickerHomePage:
         )
 
     def select_date_from_calendar(self, day):
-        """
-        Open the calendar and click a specific date.
-        :param day: The day of the month to select (e.g., "29").
-        """
+        """Open the calendar and click a specific date."""
         self.click_date_field()
         specific_date_xpath = self.specific_date.format(day)
         WebDriverWait(self.driver, 10).until(
@@ -52,9 +55,7 @@ class DatePickerHomePage:
         ).click()
 
     def get_date_field_value(self):
-        """
-        Get the value of the date field in the format MM/DD/YYYY.
-        """
+        """Get the value of the date field in the format MM/DD/YYYY."""
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.date_field)
         ).get_attribute("value")

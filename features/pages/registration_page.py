@@ -4,12 +4,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class DemoRegistrationPage:
+    URL = "https://phptravels.com/demo/"
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-
-
         self.locators = {
             "first_name_field": (By.XPATH, "//input[@name='first_name']"),
             "last_name_field": (By.XPATH, "//input[@name='last_name']"),
@@ -23,6 +24,10 @@ class DemoRegistrationPage:
             "num1": (By.ID, "numb1"),
             "num2": (By.ID, "numb2"),
         }
+
+    def open(self):
+        """Open the registration page."""
+        self.driver.get(self.URL)
 
     def handle_alert(self):
         try:
@@ -78,19 +83,14 @@ class DemoRegistrationPage:
 
     def submit_form(self):
         try:
-
             num1 = int(self.wait.until(EC.visibility_of_element_located(self.locators["num1"])).text)
             num2 = int(self.wait.until(EC.visibility_of_element_located(self.locators["num2"])).text)
             result = num1 + num2
             print(f"Ensuring result is set before submitting: {num1} + {num2} = {result}")
-
-
             result_field = self.wait.until(EC.element_to_be_clickable(self.locators["result_field"]))
             result_field.clear()
             result_field.send_keys(str(result))
             print("Result field filled successfully before submission.")
-
- 
             self.wait.until(EC.element_to_be_clickable(self.locators["submit_button"])).click()
             print("Form submitted successfully.")
         except UnexpectedAlertPresentException as e:
@@ -101,7 +101,6 @@ class DemoRegistrationPage:
 
     def get_error_message(self):
         try:
-
             error_element = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div.alert_msg p")))
             error_message = error_element.text.strip()
             print(f"Error message retrieved: {error_message}")
@@ -115,4 +114,3 @@ class DemoRegistrationPage:
         except Exception as e:
             print(f"Unexpected error occurred while retrieving the error message: {e}")
             return None
-

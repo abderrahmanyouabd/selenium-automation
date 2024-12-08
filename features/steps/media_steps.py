@@ -1,9 +1,10 @@
 from behave import given, when, then
 from selenium.webdriver.common.by import By
+from pages.sauce_demo_login_page import SauceDemoLoginPage
 
 @given('I am on login page')
 def step_impl(context):
-    context.driver.get("https://www.saucedemo.com/")
+    SauceDemoLoginPage(context).open()
     print("Navigated to the SauceDemo login page.")
 
 @given('I log in with "{username}" and password "{password}"')

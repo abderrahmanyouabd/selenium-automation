@@ -5,6 +5,9 @@ class MenuPage(SauceDemoLoginPage):
     MENU_ICON = (By.ID, "react-burger-menu-btn")
     LOGOUT_BUTTON = (By.ID, "logout_sidebar_link")
 
+    def __init__(self, context):
+        super().__init__(context)
+
     def open_menu(self):
         self.click(self.MENU_ICON)
 

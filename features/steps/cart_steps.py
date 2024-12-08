@@ -11,8 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 @given('I am on the SauceDemo login page')
 def step_impl(context):
-    context.driver.get("https://www.saucedemo.com/")
-    context.login_page = SauceDemoLoginPage(context.driver)
+    context.login_page = SauceDemoLoginPage(context)
+    context.login_page.open()
 
 @given('I log in with username "{username}" and password "{password}"')
 def step_impl(context, username, password):

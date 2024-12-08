@@ -5,10 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+
 @given('I am on the demo login page')
 def step_impl(context):
-    context.driver.get("https://travelsystem.org/admin/login.php")
     context.login_page = LoginPage(context.driver)
+    context.login_page.open()
+
 
 @when('I fill the "{field}" field with "{value}"')
 def step_impl(context, field, value):
@@ -21,9 +23,11 @@ def step_impl(context, field, value):
             value = ""
         context.login_page.enter_password(value)
 
+
 @when('I submit the login form')
 def step_impl(context):
     context.login_page.submit_login_form()
+
 
 @then('I should be redirected to "{expected_url}"')
 def step_impl(context, expected_url):
@@ -43,7 +47,6 @@ def step_impl(context, expected_url):
         raise
 
 
-
 @then('I should see the login message "{expected_message}"')
 def step_impl(context, expected_message):
     try:
@@ -59,7 +62,6 @@ def step_impl(context, expected_message):
 
         if actual_message is None:
             actual_message = context.login_page.get_error_message()
-
 
         if expected_message != "N/A":
             assert actual_message is not None, "No error or alert message was detected."

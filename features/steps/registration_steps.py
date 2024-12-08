@@ -8,17 +8,15 @@ from selenium.webdriver.support import expected_conditions as EC
 
 @given('I am on the demo registration page')
 def step_impl(context):
-    context.driver.get("https://phptravels.com/demo/")
+    context.registration_page = DemoRegistrationPage(context.driver)
+    context.registration_page.open()
     print("Navigated to registration page")
 
 
 @when("I fill the 'First Name' field with '{first_name}'")
 def step_impl(context, first_name):
-    if first_name == "[BLANK]":
-        first_name = ""
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.fill_first_name(first_name)
+        context.registration_page.fill_first_name(first_name if first_name != "[BLANK]" else "")
     except Exception as e:
         print(f"Error filling First Name field: {e}")
 
@@ -26,8 +24,7 @@ def step_impl(context, first_name):
 @when("I fill the 'Last Name' field with '{last_name}'")
 def step_impl(context, last_name):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.fill_last_name(last_name)
+        context.registration_page.fill_last_name(last_name)
     except Exception as e:
         print(f"Error filling Last Name field: {e}")
 
@@ -35,8 +32,7 @@ def step_impl(context, last_name):
 @when("I fill the 'Email' field with '{email}'")
 def step_impl(context, email):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.fill_email(email)
+        context.registration_page.fill_email(email)
     except Exception as e:
         print(f"Error filling Email field: {e}")
 
@@ -44,8 +40,7 @@ def step_impl(context, email):
 @when("I fill the 'WhatsApp' field with '{whatsapp}'")
 def step_impl(context, whatsapp):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.fill_whatsapp(whatsapp)
+        context.registration_page.fill_whatsapp(whatsapp)
     except Exception as e:
         print(f"Error filling WhatsApp field: {e}")
 
@@ -53,8 +48,7 @@ def step_impl(context, whatsapp):
 @when("I select '{country_id}' from the country dropdown")
 def step_impl(context, country_id):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.select_country(country_id)
+        context.registration_page.select_country(country_id)
     except Exception as e:
         print(f"Error selecting country: {e}")
 
@@ -62,8 +56,7 @@ def step_impl(context, country_id):
 @when("I fill the 'Business Name' field with '{business_name}'")
 def step_impl(context, business_name):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.fill_business_name(business_name)
+        context.registration_page.fill_business_name(business_name)
     except Exception as e:
         print(f"Error filling Business Name field: {e}")
 
@@ -71,8 +64,7 @@ def step_impl(context, business_name):
 @when("I submit the registration form")
 def step_impl(context):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
-        registration_page.submit_form()
+        context.registration_page.submit_form()
     except Exception as e:
         print(f"Error submitting the form: {e}")
 
@@ -80,7 +72,6 @@ def step_impl(context):
 @then("I should see the registration message '{expected_message}'")
 def step_impl(context, expected_message):
     try:
-        registration_page = DemoRegistrationPage(context.driver)
         actual_message = None
 
         try:
@@ -91,10 +82,8 @@ def step_impl(context, expected_message):
         except Exception:
             print("No alert detected.")
 
-
         if not actual_message:
-            actual_message = registration_page.get_error_message()
-
+            actual_message = context.registration_page.get_error_message()
 
         if not actual_message:
             try:
@@ -108,11 +97,7 @@ def step_impl(context, expected_message):
             except Exception as e:
                 print(f"Error while checking for success message: {e}")
 
-
         assert expected_message in actual_message, f"Expected '{expected_message}', but got '{actual_message}'"
 
     except Exception as e:
         print(f"Error verifying the message: {e}")
-
-
-
